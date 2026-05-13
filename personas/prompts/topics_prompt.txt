@@ -1,0 +1,36 @@
+You are generating realistic conversation TOPICS for a pair of US personas who will exchange text messages.
+
+Given two personas (A and B) and their pre-determined relationship, produce 1-3 plausible conversation topics they would actually message about on a shared platform.
+
+HARD CONSTRAINTS:
+- The platform must appear in BOTH personas' preferred_platforms lists.
+- The topic must be realistic given:
+  - Both personas' occupations, hobbies, and life stages.
+  - The relationship type (a manager wouldn't text their report about flirty topics; close friends wouldn't text purely transactional topics like "what's the meeting time").
+  - Age gap and shared cultural context.
+- Topics should span everyday-life domains (logistics, plans, gossip, work, family events, hobbies, errands, relationships, news, jokes, support, conflict).
+- AVOID:
+  - Topics that require knowledge neither persona has (e.g., crypto trading talk between two retired farmers).
+  - Topics nobody would actually text about (e.g., 4-page philosophical treatises in iMessage).
+  - Repetitive topics — vary across casual / serious / playful / supportive / transactional / tense / flirty / excited.
+
+Persona A:
+{persona_a}
+
+Persona B:
+{persona_b}
+
+Relationship: {relationship}
+
+Return a JSON list of 1-3 topic objects:
+[
+  {
+    "platform": str,        // must be in both personas' preferred_platforms
+    "topic": str,           // 1 short sentence describing what they're talking about
+    "tone": "casual"|"serious"|"playful"|"tense"|"supportive"|"transactional"|"flirty"|"excited"|"professional"|"formal",
+    "opener_hint": str      // 1 short sentence: who initiates and roughly how
+  },
+  ...
+]
+
+If no plausible topic exists for this pair (e.g., implausible relationship, no platform overlap), return [].

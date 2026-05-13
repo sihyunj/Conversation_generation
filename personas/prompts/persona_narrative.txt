@@ -1,0 +1,50 @@
+You are generating ONE synthetic US persona for an English-language messaging conversation dataset.
+
+You are given pre-sampled demographic attributes. Your job is to:
+1. Pick a realistic name (first + last) that reflects the ethnicity/region.
+2. Pick a city within the given state.
+3. Pick a specific occupation matching the education level + age + region (no generic "professional"; use specific job titles like "ER nurse at Cedar Rapids hospital" or "freight dispatcher").
+4. Set Big Five traits (0-100 each).
+5. Set messaging traits consistent with age and personality (see plausibility guards).
+6. Write three short narratives: professional_persona, social_persona, messaging_persona.
+7. List hobbies and core_values.
+
+Plausibility guards (HARD CONSTRAINTS):
+- slang_register=heavy_genz only if age <= 28
+- slang_register=heavy_millennial only if 27 <= age <= 44
+- preferred_platforms cannot include Discord/Snapchat if age > 55
+- preferred_platforms must include email or Teams if occupation is white-collar OR age >= 40
+- capitalization_style=lowercase implies casual/playful style and age <= 40
+- household_size 1 is more likely if Single/Divorced/Widowed; 2-5 if Married/Cohabiting
+
+Pre-sampled attributes:
+{attributes}
+
+Return a SINGLE JSON object only (no markdown, no commentary), matching this schema exactly:
+
+{
+  "first_name": str,
+  "last_name": str,
+  "city": str,
+  "occupation": str,
+  "household_size": int,
+  "native_language": str,
+  "openness": int,
+  "conscientiousness": int,
+  "extraversion": int,
+  "agreeableness": int,
+  "neuroticism": int,
+  "communication_style": "formal"|"professional"|"casual"|"playful"|"terse",
+  "emoji_density": "none"|"low"|"medium"|"high",
+  "abbreviation_use": "none"|"minimal"|"moderate"|"heavy",
+  "avg_message_length": "very_short"|"short"|"medium"|"long",
+  "punctuation_style": "minimal"|"standard"|"expressive",
+  "capitalization_style": "lowercase"|"sentence_case"|"proper"|"random",
+  "preferred_platforms": [str, ...],   // 2-5 from the allowed list
+  "slang_register": "none"|"mild"|"moderate"|"heavy_genz"|"heavy_millennial"|"regional",
+  "professional_persona": str,
+  "social_persona": str,
+  "messaging_persona": str,
+  "hobbies_and_interests": str,
+  "core_values": str
+}
