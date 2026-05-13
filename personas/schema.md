@@ -25,7 +25,7 @@ Each line in `data/personas.jsonl` is one JSON object with the fields below.
 | Field | Type | Description |
 |---|---|---|
 | `ethnicity` | enum | `White` \| `Hispanic` \| `Black` \| `Asian` \| `Multiracial` \| `Native American` |
-| `native_language` | enum | `English` \| `Spanish` \| `Mandarin` \| `Vietnamese` \| `Tagalog` \| etc. |
+| `native_language` | enum | `English` (English-only dataset; see project conventions) |
 | `education_level` | enum | `Less than HS` \| `HS diploma` \| `Some college` \| `Associate` \| `Bachelor's` \| `Graduate` |
 | `marital_status` | enum | `Single` \| `Married` \| `Divorced` \| `Widowed` \| `Cohabiting` |
 | `household_size` | int | 1–7 |

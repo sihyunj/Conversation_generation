@@ -5,6 +5,81 @@ Newest entries on top.
 
 ---
 
+## 2026-05-13 — `claude/english-only-8mPq3R`
+
+**Goal**: enforce an English-only policy across every artifact. Per user
+("영문으로만 해줘. spanish 라던가 이런것들은 다 빼"), strip all non-English
+text from data and prompts.
+
+### Changes
+
+- **`personas/_build_seed.py`** — 22 personas had `native_language` set to
+  Spanish / Mandarin / Cantonese / Vietnamese / Korean; all changed to
+  `English`. Narratives, hobbies, and `core_values` rewritten to remove:
+  - foreign-language quoted text (e.g., `jajaja`, `mami`, `abuela`,
+    `Buenos días hijo`, `사랑해`)
+  - bilingual / code-switching descriptions ("Bilingual texter—WhatsApp in
+    Spanish", "WhatsApp with mom in Mandarin / Vietnamese / Cantonese /
+    Korean")
+  - non-English cultural-vocabulary tokens that are language references
+    (telenovelas → Hallmark movies; K-drama hobbies → subbed TV thrillers;
+    Bharatanatyam → "her daughter's classical dance recitals"; Carnatic →
+    classical; Diné Bizaad teaching → Tribal-history teaching; Tamil /
+    Bengali community references → generic family/community language)
+  - non-English city/place references in dialogue contexts (`Bogotá-Miami
+    cousin meetup` → `Miami cousin meetup`)
+- **Topic opener_hints** — 5 entries with Spanish/Spanglish text rewritten
+  in English (`'fam que tal'` → `'yo fam'`; `'Mañana doblas?'` → `'Can you
+  double tomorrow?'`; `'oye prima escucha este episodio'` → `'hey cousin
+  you HAVE to listen to this episode'`; etc.).
+- **Seed messages** — the 5 `bilingual_*` entries renamed to `warm_informal_*`
+  and translated to English. `casual_03` and `group_01` also translated.
+- **Docs** — `personas/schema.md` `native_language` enum narrowed to
+  `English`; `personas/README.md` added an "English-only policy" section
+  and updated the Limitations entry; root `CLAUDE.md` Conventions →
+  Languages section rewritten to reflect the strict policy;
+  `conversations/prompts/conv_template.txt` explicitly forbids
+  code-switching in generated conversations; `conversations/README.md`
+  note about `native_language` updated.
+
+### Preserved (intentional)
+
+- **Ethnic identity** in `ethnicity`, `first_name`, `last_name` — Hispanic,
+  Asian, Black, Native American, Multiracial personas remain in the
+  dataset; only language references were stripped.
+- **Surname accents** (e.g., `Núñez`) — standard US directory spelling for
+  Hispanic surnames; treated as proper-noun identifiers, not language
+  content. A Unicode-aware grep over the regenerated JSONL surfaces only
+  `Núñez` (one persona, two cross-references in topics) and nothing else.
+- **Cultural touchstones in hobbies/values** where the term itself is
+  English (salsa dancing, Tex-Mex cooking, "subbed TV thrillers") —
+  preserved because the user's directive was about language, not heritage.
+
+### Validation result
+
+```
+$ python _build_seed.py
+Wrote 100 personas / 91 topics / 66 seed messages.
+
+$ python validate.py
+=== Personas: 100 entries — OK no structural errors. ===
+=== Topics:    91 entries — OK no errors. ===
+(distributions unchanged from prior runs)
+
+Unicode-aware scan:
+  6 non-Latin chars total — all `Núñez` surname occurrences.
+```
+
+### Files NOT touched
+
+- `personas/_build_seed.py` PERSONAS_RAW rows for the other ~78 personas
+  that were already English-only (only the affected 22 needed rewrites).
+- `personas/data/external_dataset_sources.md` — was already clean.
+- `conversations/examples/sample_conversations.jsonl` — was already
+  English-only.
+
+---
+
 ## 2026-05-13 — `claude/docs-post-merge-7vYw2c`
 
 **Goal**: post-merge doc housekeeping after PR #2 merged.

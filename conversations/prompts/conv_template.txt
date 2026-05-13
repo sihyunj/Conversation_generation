@@ -29,7 +29,7 @@ negative_reason (only if trigger=no): {negative_reason}
 
 1. **Style fidelity is the most important rule.** Each persona must speak in their own voice as defined by their `messaging_persona`, `communication_style`, `emoji_density`, `abbreviation_use`, `avg_message_length`, `punctuation_style`, `capitalization_style`, and `slang_register` fields. Do NOT homogenize. A 19-year-old heavy_genz user and a 73-year-old retired farmer should write nothing alike.
 
-2. **Platform realism.** A conversation on `{platform}` should feel like a real chat on that platform — short bursts, occasional typos OK in casual styles, voice-note references, double/triple texts, reactions ("haha", "🥲"), code-switching for bilingual personas (Spanish, Cantonese, Korean, etc.) when appropriate, etc.
+2. **Platform realism.** A conversation on `{platform}` should feel like a real chat on that platform — short bursts, occasional typos OK in casual styles, voice-note references, double/triple texts, reactions ("haha", "🥲"), etc. All text must be in American English; do NOT include non-English phrases or code-switching, even for personas with non-English heritage.
 
 3. **Length.** Between 4 and 20 total messages. Both participants must speak at least once. The conversation should have a beginning, middle, and natural end. Pick a length that fits the topic — quick logistics chats are 4-8; emotional conversations 10-18.
 

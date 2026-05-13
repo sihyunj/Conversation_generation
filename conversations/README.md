@@ -139,7 +139,7 @@ The prompt strongly enforces that each persona writes in their own voice. The
 - `communication_style`, `emoji_density`, `abbreviation_use`, `avg_message_length`,
 - `punctuation_style`, `capitalization_style`, `slang_register`,
 - `messaging_persona` (1-2 sentence narrative of texting habits),
-- `native_language` (for bilingual code-switching).
+- `native_language` (always `English` in the current dataset).
 
 A 22-year-old heavy_genz user and a 73-year-old formal retiree should produce
 visibly different text in the same conversation.
