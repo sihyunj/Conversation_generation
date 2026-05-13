@@ -51,9 +51,10 @@ Inspired by NVIDIA's [Nemotron-Personas-Korea](https://huggingface.co/datasets/n
 ## Working norms in this repo
 
 - **Branches**: always work on `claude/<short-description>-<id>` branches.
-  `main` is for merged work only. Active / recent branches:
+  `main` is for merged work only. Recent branches:
   - `claude/create-messaging-personas-1BLeS` — personas module (merged via PR #1).
-  - `claude/messaging-conversations-3kLpQ7` — conversations module (current).
+  - `claude/messaging-conversations-3kLpQ7` — conversations module (merged via PR #2).
+  - No active feature branch at time of writing — start a new `claude/<task>-<id>` branch for the next task.
 - **Per-task work logs**: every meaningful work session adds an entry to
   `WORK_LOG.md`. Newest on top. Include: branch, goal, decisions, tradeoffs,
   validation result, known limitations.
