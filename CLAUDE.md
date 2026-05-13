@@ -8,13 +8,15 @@ live in heads needs to live in this file.
 ## What this repo is
 
 `Conversation_generation` is a research repo for **synthetic conversation data
-generation**, focused on US-English messaging. The pipeline (in progress) is:
+generation**, focused on US-English messaging. The pipeline is:
 
 ```
-1. Personas        →  data/personas.jsonl       (100 hand-curated US personas)
-2. Topic pairs     →  data/topics.jsonl         (91 plausible A-B-relationship combos)
-3. Seed messages   →  data/seed_messages.jsonl  (66 single-turn style anchors)
-4. Conversations   →  (future) multi-turn dialog generation conditioned on (1)+(2)+(3)
+1. Personas        →  personas/data/personas.jsonl        (100 hand-curated US personas)
+2. Topic pairs     →  personas/data/topics.jsonl          (91 plausible A-B-relationship combos)
+3. Seed messages   →  personas/data/seed_messages.jsonl   (66 single-turn style anchors)
+4. Conversations   →  conversations/data/conversations.jsonl
+                       multi-turn labeled dialogs (trigger yes/no + 9 actions)
+                       — generation code shipped; run with API key to populate
 5. Eval set        →  (future) hand-written hold-out
 ```
 
@@ -27,22 +29,31 @@ Inspired by NVIDIA's [Nemotron-Personas-Korea](https://huggingface.co/datasets/n
 ├── README.md                # repo top-level intro (minimal)
 ├── CLAUDE.md                # this file
 ├── WORK_LOG.md              # running log of Claude's work, by branch+date
-└── personas/                # the persona generation module
-    ├── README.md            # personas folder docs (read this first)
-    ├── schema.md            # full field definitions
-    ├── _build_seed.py       # deterministic builder from hand-curated data
-    ├── generate_personas.py # live regen via Anthropic SDK
-    ├── generate_topics.py   # live topic-pair gen
-    ├── validate.py          # structural + plausibility validator
-    ├── prompts/             # Claude prompt templates + distribution weights
-    └── data/                # generated JSONL artifacts
+├── personas/                # persona + topic + seed-message generation module
+│   ├── README.md            # personas folder docs (read this first)
+│   ├── schema.md            # full field definitions
+│   ├── _build_seed.py       # deterministic builder from hand-curated data
+│   ├── generate_personas.py # live regen via Anthropic SDK
+│   ├── generate_topics.py   # live topic-pair gen
+│   ├── validate.py          # structural + plausibility validator
+│   ├── prompts/             # Claude prompt templates + distribution weights
+│   └── data/                # generated JSONL artifacts
+└── conversations/           # labeled multi-turn conversation generation module
+    ├── README.md            # conversation generation docs
+    ├── schema.md            # conversation record schema + label semantics
+    ├── generate_conversations.py   # main generation script (Anthropic SDK)
+    ├── validate_conversations.py   # structure + label + distribution checks
+    ├── prompts/             # master template + per-action / per-negative guidance
+    ├── examples/            # 3 hand-crafted sample records for schema reference
+    └── data/                # generated JSONL (populated by running the script)
 ```
 
 ## Working norms in this repo
 
 - **Branches**: always work on `claude/<short-description>-<id>` branches.
-  `main` is for merged work only. Active branches at time of writing:
-  - `claude/create-messaging-personas-1BLeS` — personas module (current).
+  `main` is for merged work only. Active / recent branches:
+  - `claude/create-messaging-personas-1BLeS` — personas module (merged via PR #1).
+  - `claude/messaging-conversations-3kLpQ7` — conversations module (current).
 - **Per-task work logs**: every meaningful work session adds an entry to
   `WORK_LOG.md`. Newest on top. Include: branch, goal, decisions, tradeoffs,
   validation result, known limitations.
@@ -70,18 +81,19 @@ directly — `_build_seed.py` re-emits the exact JSONL deterministically.
 ## Running things
 
 ```bash
+# personas / topics / seed messages
 cd personas
-
-# deterministic rebuild (no API key needed)
-python _build_seed.py
-
-# live regeneration with Claude API
+python _build_seed.py                                     # deterministic rebuild
 export ANTHROPIC_API_KEY=...
-python generate_personas.py --count 100 --out data/personas.jsonl
+python generate_personas.py --count 100 --out data/personas.jsonl   # live regen
 python generate_topics.py --in data/personas.jsonl --out data/topics.jsonl --pairs 300
-
-# validate
 python validate.py
+
+# labeled multi-turn conversations
+cd ../conversations
+python generate_conversations.py --count 1000 --out data/conversations.jsonl
+python validate_conversations.py
+python validate_conversations.py --examples              # validates examples/
 ```
 
 ## Conventions

@@ -1,0 +1,39 @@
+{
+  "_comment": "Per-reason guidance injected into conv_template when trigger=no. Each negative subcategory targets a specific failure mode of a naive lexical model.",
+
+  "pure_chitchat": {
+    "description": "No actionable signal — purely social, emotional, or banter content.",
+    "structural_requirement": "Keep the conversation entirely social. Avoid specific times, addresses, money figures, photo requests, factual questions, or upcoming events needing preparation. Stick to: shared opinions, gossip, jokes, emotional check-ins, light life updates, hypothetical chat, complaining, encouraging.",
+    "danger_to_avoid": "Do NOT include any strong cue for any of the 9 actions, especially near the end.",
+    "example_ending_pattern": "A: 'lolll honestly same tho'\nB: 'okay im going to bed 😴 love u'"
+  },
+
+  "action_completed_in_convo": {
+    "description": "An action was clearly performed during the conversation; nothing left to suggest at the end.",
+    "structural_requirement": "The perspective person performs the action mid-conversation. After completion, the conversation continues for 2-5 more turns with social closure, casual chitchat, or a topic shift — so the END of the conversation has no fresh actionable cue. Pick an action and explicitly resolve it.",
+    "danger_to_avoid": "Do NOT let the resolution be vague ('i'll do it later') — be unambiguous that the action was completed.",
+    "example_pattern": "Mid-convo: 'okay venmo'd you the $40' → then 4 more turns about weekend plans (no money, no fresh action signal at end)"
+  },
+
+  "other_party_action": {
+    "description": "An action is needed, but by the OTHER persona — not the perspective person.",
+    "structural_requirement": "Make it clear that the OTHER persona is the one who would take the action. Use second-person framing: 'can you send me the address', 'remind me again ok?', 'you should look up that movie'. The perspective person is the recipient / requester, not the actor.",
+    "danger_to_avoid": "Do NOT phrase it as joint or ambiguous responsibility. The perspective person must NOT be the one who needs to do anything.",
+    "example_ending_pattern": "Perspective person says 'okay just text me the addy when you have it 🙏'"
+  },
+
+  "already_resolved_elsewhere": {
+    "description": "The action was already handled outside this conversation, before it started; suggesting it now would be redundant.",
+    "structural_requirement": "The perspective person mentions they ALREADY did the equivalent action via another channel BEFORE the conversation started. Examples: 'oh i already googled that earlier', 'i venmo'd you yesterday actually', 'already saved the recipe in my notes from last time'.",
+    "danger_to_avoid": "Don't make it sound like they're ABOUT to do the action. The action is in the PAST tense and already complete.",
+    "example_ending_pattern": "Perspective person: 'haha yeah i already pulled it up on my browser this morning, looks legit'"
+  },
+
+  "ambiguous_boundary": {
+    "description": "Hard / borderline case — weak, hypothetical, or future-conditional action cue where reasonable annotators might disagree.",
+    "structural_requirement": "Include a faint or hypothetical cue near the end — examples: 'i should look that up sometime', 'maybe i'll order dinner later, idk yet', 'i wanna check the weather i guess but eh', 'we should probably plan dinner at some point'. The cue is NOT strong enough to warrant an immediate suggestion right now, but a naive model might mistakenly label trigger=yes.",
+    "purpose": "These are the highest-value training examples — they teach the model what counts as a strong vs weak cue.",
+    "danger_to_avoid": "Don't make it obviously yes or obviously no. The whole point is the boundary.",
+    "example_ending_pattern": "A: 'idk maybe we'll grab food later, no rush'\nB: 'haha all good, lmk'"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "_comment": "Per-action guidance injected into the conv_template when trigger=yes. The generator uses these to produce conversations whose ending naturally implies the target action without explicitly naming it.",
+
+  "check_weather": {
+    "description": "Suggest the user check the weather forecast.",
+    "when_to_suggest": "The perspective person has an upcoming outdoor or weather-sensitive plan and the conversation ends without anyone resolving the weather question.",
+    "natural_signals": [
+      "anticipating outdoor activity (picnic, hike, beach, BBQ, walk, run, outdoor wedding, festival)",
+      "questions about what to wear / what to pack",
+      "uncertainty about umbrella / jacket / sunscreen",
+      "planning travel to a region with different climate"
+    ],
+    "anti_signals": [
+      "the plan is indoors (weather is irrelevant)",
+      "someone already shared a forecast in the conversation",
+      "the event is months away"
+    ],
+    "example_ending_pattern": "B: 'okay see you saturday at the trailhead 9am 🌲'\nA: 'sounds good!! hope the rain holds off'"
+  },
+
+  "open_maps": {
+    "description": "Suggest opening a maps app for directions or a location lookup.",
+    "when_to_suggest": "The perspective person is heading to a specific place (especially unfamiliar) and the conversation establishes the location near the end without anyone sharing a route.",
+    "natural_signals": [
+      "address dropped at the end of the conversation",
+      "uncertainty about how to get somewhere ('where exactly is this place?')",
+      "ETA estimation requested",
+      "first-time visit to a venue / neighborhood / unfamiliar city"
+    ],
+    "anti_signals": [
+      "they've been there many times",
+      "the other person already shared a pin or maps link",
+      "the meeting is at someone's well-known home"
+    ],
+    "example_ending_pattern": "B: '7pm at Tatsu Ramen — 2700 W Main St'\nA: 'on my way!'"
+  },
+
+  "order_food": {
+    "description": "Suggest opening a food-delivery app or restaurant menu.",
+    "when_to_suggest": "Hunger or a meal decision is the live topic near the end and no one has placed an order yet.",
+    "natural_signals": [
+      "'i'm starving', 'what's for dinner?', 'order something?'",
+      "discussing cravings or restaurant choices",
+      "post-workout / late-night hunger",
+      "kids asking what's for dinner"
+    ],
+    "anti_signals": [
+      "they're cooking / already at a restaurant / just ate",
+      "someone said 'I'll order' (use action_completed_in_convo instead)"
+    ],
+    "example_ending_pattern": "B: 'okay i'm DONE for the day, dinner??'\nA: 'starving fr. thai or pizza?'"
+  },
+
+  "send_gift": {
+    "description": "Suggest sending a gift via a gifting app or e-commerce site.",
+    "when_to_suggest": "An imminent occasion calling for a gift is mentioned and the perspective person hasn't bought anything yet.",
+    "natural_signals": [
+      "someone's birthday this week / next weekend",
+      "anniversary / housewarming / promotion / baby shower / graduation",
+      "wanting to thank or congratulate someone",
+      "condolences (sympathy flowers)"
+    ],
+    "anti_signals": [
+      "they've already bought it (action_completed_in_convo)",
+      "the gift logistics are someone else's responsibility (other_party_action)"
+    ],
+    "example_ending_pattern": "B: 'mom's bday saturday btw 🎂'\nA: 'ah!! ty for the reminder'"
+  },
+
+  "send_money": {
+    "description": "Suggest opening a P2P payment app (Venmo, Cash App, Zelle, Apple Cash).",
+    "when_to_suggest": "The perspective person owes someone money or has agreed to pay them and the conversation ends before they've sent it.",
+    "natural_signals": [
+      "splitting a bill / Uber / shared cost / utilities / rent",
+      "owing for a meal / ticket / favor",
+      "explicit 'i'll send you' / 'lmk what i owe'",
+      "covering for someone temporarily"
+    ],
+    "anti_signals": [
+      "they already sent it (action_completed_in_convo)",
+      "the OTHER person owes them (flip to other_party_action)"
+    ],
+    "example_ending_pattern": "B: 'no worries lol your share was $32'\nA: 'ahh ok ty! 🙏'"
+  },
+
+  "set_reminder": {
+    "description": "Suggest setting a calendar reminder / alarm / notification.",
+    "when_to_suggest": "A specific upcoming time/date commitment is made by the perspective person near the end of the conversation, especially when the person is conversational/forgetful.",
+    "natural_signals": [
+      "agreeing on a meeting time / appointment / call",
+      "asking to be reminded of something",
+      "important deadline / call / pickup time mentioned",
+      "promising to do something at a specific future time"
+    ],
+    "anti_signals": [
+      "the time is hours away and obvious / routine",
+      "the OTHER person will handle the timekeeping"
+    ],
+    "example_ending_pattern": "B: 'cool — call at 3pm tomorrow?'\nA: 'perfect, talk then'"
+  },
+
+  "share_photo": {
+    "description": "Suggest opening the photo library or camera to send an image.",
+    "when_to_suggest": "The perspective person is asked to send a photo (existing or to-be-taken) and hasn't yet.",
+    "natural_signals": [
+      "'send me a pic'",
+      "'do you have a photo of that?'",
+      "request for proof / show & tell",
+      "wanting to share a meal / event / pet / outfit / haircut / kid"
+    ],
+    "anti_signals": [
+      "they already sent it (action_completed_in_convo)",
+      "the OTHER person is the one being asked to share"
+    ],
+    "example_ending_pattern": "B: 'wait i need to SEE this dress'\nA: 'omg ok hold on'"
+  },
+
+  "take_note": {
+    "description": "Suggest jotting something to a notes app.",
+    "when_to_suggest": "Information worth remembering is given to the perspective person (recipe, address, password, tip, idea, name) and they haven't saved it.",
+    "natural_signals": [
+      "a recipe / measurements shared",
+      "a useful phone number, address, or code received",
+      "a recommendation or idea they should remember",
+      "to-do list items dictated"
+    ],
+    "anti_signals": [
+      "they already wrote it down (action_completed_in_convo)",
+      "the info is already saved (e.g., in a contact)"
+    ],
+    "example_ending_pattern": "B: 'recipe: 2 eggs, 1 cup flour, 1/2 cup milk, bake at 375 for 20'\nA: 'ohhh perfect ty'"
+  },
+
+  "web_search": {
+    "description": "Suggest opening a browser / web search.",
+    "when_to_suggest": "A question of fact comes up that the perspective person doesn't know the answer to, isn't going to learn from this conversation, and would naturally want to look up.",
+    "natural_signals": [
+      "uncertainty about a fact ('what year was that?', 'who plays them?')",
+      "wanting to verify a claim",
+      "a name / product / place / movie / book mentioned that they're not familiar with",
+      "looking up information for a decision (e.g., 'is that restaurant any good')"
+    ],
+    "anti_signals": [
+      "the other person provides the answer",
+      "they already looked it up (use already_resolved_elsewhere)"
+    ],
+    "example_ending_pattern": "B: 'apparently the new bukowski biography is incredible'\nA: 'oh huh, who's it by again?'"
+  }
+}

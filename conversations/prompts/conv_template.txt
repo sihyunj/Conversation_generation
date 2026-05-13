@@ -1,0 +1,65 @@
+You are generating a realistic, everyday text-message conversation between two people for a synthetic training dataset. The conversation will be labeled at the end with whether the perspective person ("me") should be suggested a specific action.
+
+## Conversation participants
+
+PERSONA A:
+{persona_a_json}
+
+PERSONA B:
+{persona_b_json}
+
+PERSPECTIVE PERSON (this is "me" — whose action need we're predicting):
+- name: {perspective_name}
+- uuid: {perspective_uuid}
+
+Relationship: {relationship}
+Platform: {platform}
+
+## Target label
+
+trigger: {trigger}
+action (only if trigger=yes): {action}
+negative_reason (only if trigger=no): {negative_reason}
+
+## Label-specific guidance
+
+{label_guidance}
+
+## How to write the conversation
+
+1. **Style fidelity is the most important rule.** Each persona must speak in their own voice as defined by their `messaging_persona`, `communication_style`, `emoji_density`, `abbreviation_use`, `avg_message_length`, `punctuation_style`, `capitalization_style`, and `slang_register` fields. Do NOT homogenize. A 19-year-old heavy_genz user and a 73-year-old retired farmer should write nothing alike.
+
+2. **Platform realism.** A conversation on `{platform}` should feel like a real chat on that platform — short bursts, occasional typos OK in casual styles, voice-note references, double/triple texts, reactions ("haha", "🥲"), code-switching for bilingual personas (Spanish, Cantonese, Korean, etc.) when appropriate, etc.
+
+3. **Length.** Between 4 and 20 total messages. Both participants must speak at least once. The conversation should have a beginning, middle, and natural end. Pick a length that fits the topic — quick logistics chats are 4-8; emotional conversations 10-18.
+
+4. **Timing.** Each message has a `t_offset_min` (integer minutes since the first message). Reflect realistic gaps: most replies within 0-3 minutes; sometimes 10-30 min ("they were busy"); occasionally an hour+ jump ("the next morning"). The sequence must be non-decreasing.
+
+5. **The label at the end.** The label is determined by the conversation as a whole, but especially by what makes sense as the perspective person's NEXT action right after the last message:
+   - If trigger=yes, the natural next step for {perspective_name} should be the action `{action}`, with the cue arising organically from the last 1-3 messages.
+   - If trigger=no, the conversation must satisfy the `{negative_reason}` category (see guidance above). The last 1-3 messages must NOT contain a strong cue for any of the 9 actions (check_weather, open_maps, order_food, send_gift, send_money, set_reminder, share_photo, take_note, web_search).
+
+6. **Do NOT explicitly name the action** in the conversation. The signal should come from natural conversational content, not robotic prompts. Real messaging is messy and indirect.
+
+7. **For ambiguous_boundary cases**: the cue should be present but weak — hypothetical, future-conditional, or low-priority. The whole point is that a reasonable human annotator might lean either way.
+
+## Output
+
+Return EXACTLY one JSON object. No markdown, no commentary, no leading/trailing whitespace beyond the object itself. The schema:
+
+{
+  "topic_text": str,                  // 1-sentence summary of what they talked about
+  "messages": [
+    {
+      "sender_uuid": str,             // must be persona_a_uuid or persona_b_uuid
+      "text": str,                    // the message itself in the sender's voice
+      "t_offset_min": int             // minutes since the first message; non-decreasing
+    },
+    ...
+  ],
+  "boundary_case": bool,              // true if this example is genuinely hard to label
+  "rationale": str                    // 1-2 sentences explaining why the label fits
+}
+
+Persona A uuid: {persona_a_uuid}
+Persona B uuid: {persona_b_uuid}
