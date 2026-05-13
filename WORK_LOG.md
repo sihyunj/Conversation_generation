@@ -5,6 +5,19 @@ Newest entries on top.
 
 ---
 
+## 2026-05-13 — `claude/docs-post-merge-7vYw2c`
+
+**Goal**: post-merge doc housekeeping after PR #2 merged.
+
+- Updated `CLAUDE.md` branch list: marked `claude/messaging-conversations-3kLpQ7`
+  as merged via PR #2 (was "current"); noted that no active feature branch
+  exists at time of writing.
+- Updated `WORK_LOG.md` 2026-05-13 entry: removed stale "No PR opened" line
+  and replaced with the merge reference (PR #2 / `ca6959c`).
+- No code changed.
+
+---
+
 ## 2026-05-13 — `claude/messaging-conversations-3kLpQ7`
 
 **Goal**: build the **generation pipeline** for labeled multi-turn messaging
@@ -141,8 +154,7 @@ trigger=yes/no with mismatching action/negative_reason, missing rationale.
 ### Files NOT touched
 
 - `personas/` — left intact.
-- `main` branch — this work is on `claude/messaging-conversations-3kLpQ7`.
-  No PR opened (user can request when ready).
+- Branch merged to `main` via PR #2 (`ca6959c`) after the user reviewed.
 
 ### How to use this when you get an API key
 
