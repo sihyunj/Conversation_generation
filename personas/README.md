@@ -114,10 +114,21 @@ fresh batch with the same schema.
   are approximated, not exact.
 - **Sex only**: Following Nemotron's convention, only biological sex (Male/Female) is
   modeled — gender identity and sexual orientation are not represented.
-- **English-only, US-only**: All narratives are American English. Spanish-dominant
-  bilinguals are noted via `native_language` but narratives stay English.
+- **English-only, US-only**: All narratives, example messages, and topic
+  descriptions are American English. `native_language` is `English` for every
+  persona; ethnic diversity is preserved through names and cultural
+  identifiers, but no non-English text appears anywhere in the dataset.
 - **100 is small**: Enough to seed conversation generation, not enough to be a final
   fine-tuning corpus on its own. Scale up with the script.
+
+## English-only policy
+
+All persona narratives and messaging examples are American English. Ethnic
+diversity (Hispanic, Asian, Black, Multiracial, Native American) is preserved
+in surname / first name / cultural-identity fields, but `native_language` is
+`English` for every persona and no narrative or example message contains
+non-English text. If you scale up via the live-API path, keep this constraint
+in the prompt.
 
 ## License
 

@@ -10,7 +10,7 @@
 {"seed_id": "millennial_05", "slang_register": "heavy_millennial", "platform": "iMessage", "tone": "casual", "sender_sex": "Male", "sender_age": 36, "text": "haha tru. okay so plan: tacos at 7?"}
 {"seed_id": "casual_01", "slang_register": "moderate", "platform": "iMessage", "tone": "transactional", "sender_sex": "Female", "sender_age": 39, "text": "Heading out now—need anything from Target?"}
 {"seed_id": "casual_02", "slang_register": "mild", "platform": "iMessage", "tone": "casual", "sender_sex": "Male", "sender_age": 40, "text": "Practice ran late. Pizza on me tonight 🍕"}
-{"seed_id": "casual_03", "slang_register": "mild", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Female", "sender_age": 45, "text": "Hola amor, ya casi llego. ¿Cenamos en la casa?"}
+{"seed_id": "casual_03", "slang_register": "mild", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Female", "sender_age": 45, "text": "Hi love, almost home. Should we eat in tonight?"}
 {"seed_id": "casual_04", "slang_register": "mild", "platform": "iMessage", "tone": "supportive", "sender_sex": "Female", "sender_age": 50, "text": "Thinking of you today. Call me when you can ❤️"}
 {"seed_id": "casual_05", "slang_register": "mild", "platform": "SMS", "tone": "transactional", "sender_sex": "Male", "sender_age": 55, "text": "On my way. Be there in 20."}
 {"seed_id": "professional_01", "slang_register": "none", "platform": "email", "tone": "professional", "sender_sex": "Female", "sender_age": 53, "text": "Hi Wanda — quick check-in: are we still on for 10am tomorrow? I'll bring the latest draft."}
@@ -28,11 +28,11 @@
 {"seed_id": "elder_03", "slang_register": "none", "platform": "SMS", "tone": "casual", "sender_sex": "Female", "sender_age": 89, "text": "Hello dear. I love you. -Grandma D"}
 {"seed_id": "elder_04", "slang_register": "none", "platform": "Facebook_Messenger", "tone": "casual", "sender_sex": "Female", "sender_age": 76, "text": "Hi sweetie! Saw your post about the hike. Beautiful! Love, Mamaw"}
 {"seed_id": "elder_05", "slang_register": "none", "platform": "email", "tone": "formal", "sender_sex": "Male", "sender_age": 78, "text": "Dear son, I hope this finds you well. Your mother and I will be in town Saturday. Lunch at 12:30 if convenient. Love, Dad"}
-{"seed_id": "bilingual_01", "slang_register": "moderate", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Female", "sender_age": 33, "text": "amorrr no olvides recoger a la niña 5pm okay? te amo"}
-{"seed_id": "bilingual_02", "slang_register": "moderate", "platform": "iMessage", "tone": "playful", "sender_sex": "Female", "sender_age": 27, "text": "jajaja yes vamos al mall after work? me hace falta retail therapy"}
-{"seed_id": "bilingual_03", "slang_register": "mild", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Male", "sender_age": 35, "text": "ya estoy en site, todo bien. call me en 30"}
-{"seed_id": "bilingual_04", "slang_register": "mild", "platform": "WhatsApp", "tone": "supportive", "sender_sex": "Female", "sender_age": 73, "text": "Mija ¿comiste algo? Acuérdate de descansar."}
-{"seed_id": "bilingual_05", "slang_register": "moderate", "platform": "iMessage", "tone": "excited", "sender_sex": "Female", "sender_age": 23, "text": "okay so el plan: salsa night sat, brunch domingo, paddleboard ✨"}
+{"seed_id": "warm_informal_01", "slang_register": "moderate", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Female", "sender_age": 33, "text": "babe don't forget to pick up the kid at 5pm okay? love you"}
+{"seed_id": "warm_informal_02", "slang_register": "moderate", "platform": "iMessage", "tone": "playful", "sender_sex": "Female", "sender_age": 27, "text": "lol yes mall after work? i NEED some retail therapy"}
+{"seed_id": "warm_informal_03", "slang_register": "mild", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Male", "sender_age": 35, "text": "ok i'm on site, all good. call me in 30"}
+{"seed_id": "warm_informal_04", "slang_register": "mild", "platform": "WhatsApp", "tone": "supportive", "sender_sex": "Female", "sender_age": 73, "text": "Sweetie, did you eat something? Remember to rest."}
+{"seed_id": "warm_informal_05", "slang_register": "moderate", "platform": "iMessage", "tone": "excited", "sender_sex": "Female", "sender_age": 23, "text": "okay so the plan: salsa night sat, brunch sunday, paddleboard ✨"}
 {"seed_id": "slack_humor_01", "slang_register": "moderate", "platform": "Slack", "tone": "playful", "sender_sex": "Male", "sender_age": 38, "text": ":eyes: this PR is *spicy*"}
 {"seed_id": "slack_serious_01", "slang_register": "none", "platform": "Slack", "tone": "serious", "sender_sex": "Female", "sender_age": 41, "text": "Hi all — flagging a P1: customer-facing API is returning 500s. War room in #incident-2024-09 now."}
 {"seed_id": "discord_01", "slang_register": "heavy_genz", "platform": "Discord", "tone": "playful", "sender_sex": "Male", "sender_age": 19, "text": "bro the lobby is COOKED tonight, queue with us"}
@@ -58,7 +58,7 @@
 {"seed_id": "service_02", "slang_register": "none", "platform": "SMS", "tone": "professional", "sender_sex": "Female", "sender_age": 45, "text": "Hi Brandon! This is a reminder for your 8:00am cleaning tomorrow. Reply C to confirm."}
 {"seed_id": "service_03", "slang_register": "mild", "platform": "iMessage", "tone": "transactional", "sender_sex": "Male", "sender_age": 26, "text": "your civic is ready 🚗 brakes done, drives smooth"}
 {"seed_id": "service_04", "slang_register": "none", "platform": "email", "tone": "professional", "sender_sex": "Male", "sender_age": 33, "text": "Hello, Confirming your quote for renters insurance. Effective date is 10/15. Please review and let me know if changes are needed."}
-{"seed_id": "group_01", "slang_register": "moderate", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Female", "sender_age": 46, "text": "Familia: Sunday cookout en mi casa, 2pm. Traigan algo o no traigan nada, los amo 💕"}
+{"seed_id": "group_01", "slang_register": "moderate", "platform": "WhatsApp", "tone": "casual", "sender_sex": "Female", "sender_age": 46, "text": "Family: Sunday cookout at my place, 2pm. Bring something or bring nothing, love y'all 💕"}
 {"seed_id": "group_02", "slang_register": "heavy_millennial", "platform": "iMessage", "tone": "playful", "sender_sex": "Female", "sender_age": 39, "text": "okay sister group chat update: mom emailed me a meme. WE'RE COOKED."}
 {"seed_id": "group_03", "slang_register": "none", "platform": "Facebook_Messenger", "tone": "casual", "sender_sex": "Female", "sender_age": 67, "text": "Hello my dears, Sunday dinner at 5? Let me know what you'd like for dessert. Love, Grandma"}
 {"seed_id": "neutral_01", "slang_register": "mild", "platform": "iMessage", "tone": "casual", "sender_sex": "Female", "sender_age": 35, "text": "Sounds good! See you Saturday."}

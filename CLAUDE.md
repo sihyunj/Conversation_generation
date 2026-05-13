@@ -107,9 +107,12 @@ python validate_conversations.py --examples              # validates examples/
   generated name accidentally matches a real public figure, regenerate.
 - **No PII**: synthetic only. Never include real phone numbers, addresses,
   emails, or social handles in any data file.
-- **Languages**: narratives are American English. Spanish, Mandarin, Korean,
-  Vietnamese, etc. appear in the `native_language` field and may be referenced
-  inside narratives, but the canonical narrative text stays English.
+- **Languages**: English-only dataset. All narratives, example messages,
+  topic descriptions, and persona fields use American English. `native_language`
+  is `English` for every persona. Ethnic diversity is preserved via names and
+  cultural identifiers, but no non-English text (Spanish phrases, Hangul,
+  Hanzi, etc.) appears in any data file. Keep this constraint when extending
+  the dataset.
 
 ## Future work (planned, not started)
 
