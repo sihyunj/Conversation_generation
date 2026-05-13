@@ -5,6 +5,175 @@ Newest entries on top.
 
 ---
 
+## 2026-05-13 — `claude/messaging-conversations-3kLpQ7`
+
+**Goal**: build the **generation pipeline** for labeled multi-turn messaging
+conversations (no live generation run — just the code, prompts, schema, and
+validators). The output dataset will be used to train an end-of-conversation
+action-suggestion model.
+
+### What got built
+
+```
+conversations/
+├── README.md                       # purpose, pipeline, distribution defaults, limits
+├── schema.md                       # full record schema + constraints + label semantics
+├── generate_conversations.py       # main generation script via Anthropic SDK
+├── validate_conversations.py       # structure + label-consistency + distribution checks
+├── prompts/
+│   ├── conv_template.txt           # master prompt parameterized by label
+│   ├── action_triggers.json        # 9 entries — when each action is the right suggestion
+│   └── negative_reasons.json       # 5 entries — what each negative subcategory must look like
+├── examples/
+│   └── sample_conversations.jsonl  # 3 hand-crafted records (used to test validator)
+└── data/                           # (empty; populated by running generate_conversations.py)
+```
+
+### Label design
+
+Two labels per conversation:
+
+- `trigger`: `"yes"` | `"no"`
+- `action`: one of 9 (`check_weather`, `open_maps`, `order_food`, `send_gift`,
+  `send_money`, `set_reminder`, `share_photo`, `take_note`, `web_search`) or
+  `null`
+
+Plus a `negative_reason` (5-enum) when `trigger=="no"` — exists because a
+naive binary classifier collapses to "did the conversation mention X-related
+vocab?" and fails on three common patterns: action already performed, OTHER
+party should act, hypothetical/weak cues. We dedicate one-fifth of negatives
+to each:
+
+- `pure_chitchat`
+- `action_completed_in_convo`
+- `other_party_action`
+- `already_resolved_elsewhere`
+- `ambiguous_boundary` — **highest-value** examples; decision-boundary cases.
+
+Plus `boundary_case: bool`, `rationale: str` (1-2 sentence explanation),
+`perspective_persona_uuid` (which of A/B is "me").
+
+### Default distribution (for `--count 1000`, balanced)
+
+```
+trigger=yes  500  — split evenly across 9 actions ≈ 55-56 each
+trigger=no   500  — split evenly across 5 reasons = 100 each
+```
+
+Tested `make_label_schedule(N, 0.5)` at N=100/250/1000: produces exactly
+balanced counts (small remainder spread across the first few buckets).
+
+Override via `--yes-ratio` and `--count`. Default is intentionally
+**balanced**, not census-natural — the user didn't specify and balanced gives
+a cleaner training signal for an initial model. Users can rebalance later.
+
+### Pipeline
+
+```
+make_label_schedule(N) → balanced labels
+  → for each target label:
+      sample_pair(personas, label)  # random A,B with platform overlap + plausibility
+      pick perspective ∈ {A, B}     # random
+      pick platform ∈ overlap       # random
+      pick relationship ∈ 13-enum   # random, filtered for age/family/etc plausibility
+      build_prompt(...)             # injects personas, label, label-specific guidance
+      call_claude(...)
+      check_record(...)             # per-record sanity (msg count, sender, timing)
+      append JSONL
+```
+
+### Plausibility filters (`plausible_pair_for_action`)
+
+Hard:
+- age gap ≤ 25 for peer / romantic
+- classmates: age gap ≤ 12, neither > 70
+- romantic with same last name only if age gap ≥ 30
+- `online_friend` needs Discord/Instagram_DM/Snapchat/Telegram overlap
+- `share_photo` needs a photo-capable platform in overlap
+
+Soft (probabilistic reject):
+- `send_money` for age > 78
+- `set_reminder` for `acquaintance` relationship
+- `send_gift` for `service_customer` relationship
+
+### Decisions and tradeoffs
+
+1. **Generation code only, no live generation**. Per user. We do not consume
+   API credits for the data; the user will run the script with their own
+   key.
+2. **Pre-scheduled balanced labels** (vs. random). LLMs left to their own
+   devices skew heavily toward "helpful/yes" — pre-determining the target
+   label before generation gives a clean training signal and saves us from
+   running an oracle classifier over generated text.
+3. **LLM synthesizes the topic_text fresh** (vs. linking to topics.jsonl).
+   topics.jsonl pairs are tied to specific personas; for random pairing we'd
+   have to remap topics anyway. Simpler to let the LLM produce a topic that
+   fits the chosen pair + label.
+4. **Soft action-specific plausibility** instead of hard. Real-world tail
+   cases (87yo grandma sending Venmo) exist. Rejection-sample most but not
+   all.
+5. **No KakaoTalk in the platform enum**. Inherited from personas — US-only
+   scope. KakaoTalk would mean reworking the personas dataset, which is out
+   of scope for this task.
+6. **`examples/sample_conversations.jsonl` over `_build_seed.py`**. Only 3
+   hand-crafted records, used purely as schema reference and to test the
+   validator. We do NOT ship a bulk seed dataset — that's the live-API run's
+   job.
+
+### Validation result
+
+```
+$ python validate_conversations.py --examples
+=== Conversations: 3 entries — OK no structural errors. ===
+trigger: no=2, yes=1
+action (yes): order_food
+neg_reason (no): pure_chitchat, ambiguous_boundary
+boundary_case=true: 1
+msg counts: 4-6 mean 5.0
+```
+
+Validator catches: missing fields, bad enums, broken persona UUID refs,
+perspective not a participant, platform not in both personas'
+preferred_platforms, message count out of [4,20], sender UUID not a
+participant, non-monotonic t_offset_min, only one persona spoke,
+trigger=yes/no with mismatching action/negative_reason, missing rationale.
+
+### Files NOT touched
+
+- `personas/` — left intact.
+- `main` branch — this work is on `claude/messaging-conversations-3kLpQ7`.
+  No PR opened (user can request when ready).
+
+### How to use this when you get an API key
+
+```bash
+cd conversations
+pip install -r ../personas/requirements.txt
+export ANTHROPIC_API_KEY=...
+python generate_conversations.py --count 1000 --out data/conversations.jsonl
+python validate_conversations.py
+```
+
+`--resume` appends to an existing JSONL — useful if the script gets
+interrupted halfway through 1000 records.
+
+### Known limitations / future improvements
+
+- **No style-fidelity validator**. The validator checks the structure but
+  not whether a 73yo retiree's messages actually look retiree-shaped. Future
+  check could measure per-sender lowercase rate, emoji density, slang
+  features, and compare to persona settings.
+- **`ambiguous_boundary` quality is LLM-dependent**. Hand-review a sample
+  after each run.
+- **Topic diversity may need tuning** after first 1000-run — if the LLM
+  keeps reaching for the same scenarios for a given (relationship, action),
+  add explicit topic seeds in the prompt to force variety.
+- **No de-duplication** between conversations. Two runs might produce nearly
+  identical conversations. For larger corpora, add a simple Jaccard-based
+  dedup pass.
+
+---
+
 ## 2026-05-07 — `claude/create-messaging-personas-1BLeS`
 
 **Goal**: build a synthetic persona dataset for English (US) messaging-style
